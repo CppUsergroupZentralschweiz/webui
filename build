@@ -1,0 +1,25 @@
+#!/bin/bash
+
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+build_dir="${WORKSPACE:-${script_dir}/_build}"
+install_dir="${WORKSPACE:-${script_dir}/_install}"
+
+export CC="${CC:-clang}"
+export CXX="${CXX:-clang++}"
+
+if [ ! -d "${build_dir}" ] ; then
+    mkdir -p "${build_dir}"
+fi
+
+if [ ! -f "${build_dir}/build.ninja" ] ; then
+    cd "${build_dir}"
+    cmake "${script_dir}" -G "Ninja" -DCMAKE_INSTALL_PREFIX=${install_dir}
+fi
+
+if [ ! -d "${script_dir}/ui/node_modules" ] ; then
+    cd "${script_dir}/ui"
+    npm install
+fi
+
+cmake --build "${build_dir}" --target all
