@@ -17,9 +17,4 @@ if [ ! -f "${build_dir}/build.ninja" ] ; then
     cmake "${script_dir}" -G "Ninja" -DCMAKE_INSTALL_PREFIX=${install_dir}
 fi
 
-if [ ! -d "${script_dir}/ui/node_modules" ] ; then
-    cd "${script_dir}/ui"
-    npm install
-fi
-
 cmake --build "${build_dir}" --target all
