@@ -1,0 +1,130 @@
+---
+
+- hosts: all
+
+  tasks:
+    - name: full system upgrade
+      pacman:
+        update_cache: yes
+        upgrade: yes
+      become: yes
+
+    - name: remove virtualbox guest utils without X11 support
+      pacman:
+        state: absent
+        name:
+          - virtualbox-guest-utils-nox
+      become: yes
+
+    - name: install virtualbox guest utils with X11 support
+      pacman:
+        name:
+          - virtualbox-guest-utils
+          - virtualbox-guest-dkms
+      become: yes
+
+    - name: install xorg
+      pacman:
+        name:
+          - arandr
+          - lightdm
+          - lightdm-gtk-greeter
+          - mesa
+          - noto-fonts
+          - ttf-ubuntu-font-family
+          - xf86-input-vmmouse
+          - xf86-video-vmware
+          - xfce4
+          - xfce4-goodies
+          - xorg-server
+        state: present
+      become: yes
+
+    - name: create autologin group
+      group:
+        name: autologin
+        state: present
+      become: yes
+
+    - name: add a user
+      user:
+        name: guest
+        password: $6$kKY49ewP2lVf9ZV3$lVxGCA94bcLwgrQCiP4Ptqnd8Xbfb4JBTnF.pEg3ZaPrKrDz1XYkv8XDy7kGkWXFDQ0xyEP577mFfQSyrzlXn.
+        groups: autologin
+        append: yes
+      become: yes
+
+    - name: configure auto login user
+      ini_file:
+        path: /etc/lightdm/lightdm.conf
+        section: Seat:*
+        option: autologin-user
+        value: guest
+        no_extra_spaces: yes
+      become: yes
+
+    - name: configure autologin session
+      ini_file: 
+        path: /etc/lightdm/lightdm.conf
+        section: Seat:*
+        option: autologin-session
+        value: xfce
+        no_extra_spaces: yes
+      become: yes
+
+    - name: install dev tools
+      pacman:
+        name:
+          - bash-completion
+          - chromium
+          - clang
+          - cmake
+          - code
+          - desktop-file-utils
+          - git
+          - inotify-tools
+          - ninja
+          - npm
+          - openssl-1.0
+          - ttf-fira-code
+          - vim
+          - xorg-xprop
+          - zlib
+        state: present
+      become: yes
+
+    - name: set mime handler
+      command: xdg-mime default code-oss-url-handler.desktop x-scheme-handler/code-oss
+      become: yes
+      become_user: guest
+
+    - name: set keyboard layout
+      command: localectl set-keymap --no-convert de_CH-latin1
+      become: yes
+
+    - name: set keyboard layout
+      command: localectl set-x11-keymap --no-convert ch
+      become: yes
+
+    - name: clone template
+      git:
+        repo: https://github.com/CppUsergroupZentralschweiz/webui.git
+        dest: /home/guest/webui
+      become: yes
+      become_user: guest
+
+    - name: xfce4 config
+      copy:
+        src: files/xfce4/
+        dest: /home/guest/.config/xfce4/
+        owner: guest
+        group: guest
+      become: yes
+      become_user: guest
+
+    - name: start X
+      systemd:
+        name: lightdm
+        enabled: yes
+        state: restarted
+      become: yes
