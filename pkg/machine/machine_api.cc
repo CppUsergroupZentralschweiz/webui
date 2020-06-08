@@ -19,18 +19,29 @@ void MachineApi::get_state(const Rest::Request &request, Http::ResponseWriter re
 
 void MachineApi::get_temperature(const Rest::Request &request, Http::ResponseWriter response)
 {
+    // Exercise 3
+    // Return the current temperature.
+
     response.headers().add<Http::Header::AccessControlAllowOrigin>("*"); // CORS
     response.send(Http::Code::Not_Implemented);
 }
 
 void MachineApi::do_start(const Rest::Request &request, Http::ResponseWriter response)
 {
+    // Exercise 1
+    // Start the machine.
+    // Return Http::Code::Not_Modified if the machine is already running.
+
     response.headers().add<Http::Header::AccessControlAllowOrigin>("*"); // CORS
     response.send(Http::Code::Not_Implemented);
 }
 
 void MachineApi::do_stop(const Rest::Request &request, Http::ResponseWriter response)
 {
+    // Exercise 2
+    // Stop the machine.
+    // Return Http::Code::Not_Modified if the machine is not running.
+
     response.headers().add<Http::Header::AccessControlAllowOrigin>("*"); // CORS
     response.send(Http::Code::Not_Implemented);
 }

@@ -6,9 +6,15 @@ class Machine extends Component {
     this.state = {
       state: null,
     };
+
+    this.timer = null
   }
 
   componentDidMount() {
+    // Exercise 4
+    // Use `setInterval` to set a timer.
+    // Call fetch_data() when the timer expires.
+
     this.fetch_data();
   }
 
@@ -38,6 +44,9 @@ class Machine extends Component {
   }
 
   render_button() {
+    // Exercise 2
+    // Show start or stop button, depending on this.state.state.
+
     return (
       <button onClick={() => this.handle_action('start')}>start</button>
     )

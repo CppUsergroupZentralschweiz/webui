@@ -22,6 +22,12 @@ void RestServer::start()
     Rest::Routes::Get(_router, "/machine/state", Rest::Routes::bind(&MachineApi::get_state, _api));
     Rest::Routes::Post(_router, "/machine/start", Rest::Routes::bind(&MachineApi::do_start, _api));
 
+    // Exercise 2
+    // Add route for /machine/stop -> do_stop.
+
+    // Exercise 3
+    // Add route for /machine/stop -> do_stop.
+
     _endpoint.setHandler(_router.handler());
     _endpoint.serve();
 }
