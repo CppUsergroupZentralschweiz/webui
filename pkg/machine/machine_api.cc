@@ -22,8 +22,9 @@ void MachineApi::get_temperature([[maybe_unused]] const Rest::Request &request,
 
   // Exercise 3
   // Return the current temperature.
+  auto const temperature = _machine->temperature();
 
-  response.send(Http::Code::Not_Implemented);
+  response.send(Http::Code::Ok, temperature.dump());
 }
 
 void MachineApi::do_start([[maybe_unused]] const Rest::Request &request,
@@ -33,8 +34,12 @@ void MachineApi::do_start([[maybe_unused]] const Rest::Request &request,
   // Exercise 1
   // Start the machine.
   // Return Http::Code::Not_Modified if the machine is already running.
-
-  response.send(Http::Code::Not_Implemented);
+  auto const result = _machine->start();
+  if (result["start"] == "already running") {
+    response.send(Http::Code::Not_Modified);
+  } else {
+    response.send(Http::Code::Ok);
+  }
 }
 
 void MachineApi::do_stop([[maybe_unused]] const Rest::Request &request,
@@ -44,8 +49,12 @@ void MachineApi::do_stop([[maybe_unused]] const Rest::Request &request,
   // Exercise 2
   // Stop the machine.
   // Return Http::Code::Not_Modified if the machine is not running.
-
-  response.send(Http::Code::Not_Implemented);
+  auto const result = _machine->stop();
+  if (result["stop"] == "not running") {
+    response.send(Http::Code::Not_Modified);
+  } else {
+    response.send(Http::Code::Ok);
+  }
 }
 
 void MachineApi::add_cors_headers(Http::ResponseWriter &response) {

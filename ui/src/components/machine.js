@@ -7,6 +7,7 @@ class Machine extends React.Component {
     super();
     this.state = {
       state: null,
+      temperature: null,
     };
 
     this.timer = null
@@ -16,6 +17,7 @@ class Machine extends React.Component {
     // Exercise 4
     // Use `setInterval` to set a timer.
     // Call fetch_data() when the timer expires.
+    this.timer = setInterval(() => { this.fetch_data() }, 1000);
 
     this.fetch_data();
   }
@@ -30,9 +32,14 @@ class Machine extends React.Component {
       .then((ms) => {
         // Exercise 3
         // Fetch the temperature from '/machine/temperature'
-        this.setState({
-          state: ms.state,
-        })
+        fetch(config.machine_url + '/machine/temperature', { method: 'GET' })
+          .then(res => res.json())
+          .then((mt) => {
+            this.setState({
+              state: ms.state,
+              temperature: Number.parseFloat(mt.temperature).toFixed(2)
+            })
+          })
       })
       .catch(console.log)
   }
@@ -50,10 +57,21 @@ class Machine extends React.Component {
   render_button() {
     // Exercise 2
     // Show start or stop button, depending on this.state.state.
-
-    return (
-      <button onClick={() => this.handle_action('start')}>start</button>
-    )
+    switch (this.state.state) {
+      case 'off':
+      case 'idle':
+        return (
+          <button onClick={() => this.handle_action('start')}>start</button>
+        )
+      case 'running':
+        return (
+          <button onClick={() => this.handle_action('stop')}>stop</button>
+        )
+      default:
+        return (
+          <button disabled>N/A</button>
+        )
+    }
   }
 
   render() {
@@ -68,6 +86,10 @@ class Machine extends React.Component {
               <tr>
                 <td>State:</td>
                 <td className={this.machine_state()}>{this.state.state}</td>
+              </tr>
+              <tr>
+                <td>Temperature:</td>
+                <td className={this.machine_state()}>{this.state.temperature}</td>
               </tr>
             </tbody>
           </table>
