@@ -26,7 +26,7 @@ void RestServer::start()
     // Add route for /machine/stop -> do_stop.
 
     // Exercise 3
-    // Add route for /machine/stop -> do_stop.
+    // Add route for /machine/temperature -> get_temperature.
 
     _endpoint.setHandler(_router.handler());
     _endpoint.serve();

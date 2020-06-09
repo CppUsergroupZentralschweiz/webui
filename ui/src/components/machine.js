@@ -60,10 +60,12 @@ class Machine extends Component {
         </div>
         <div className="content-box">
           <table>
-            <tr>
-              <td>State:</td>
-              <td className={this.machine_state()}>{this.state.state}</td>
-            </tr>
+            <tbody>
+              <tr>
+                <td>State:</td>
+                <td className={this.machine_state()}>{this.state.state}</td>
+              </tr>
+            </tbody>
           </table>
         </div>
         <div className="content-box">
