@@ -1,0 +1,11 @@
+{
+  "editor.renderWhitespace": "boundary",
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "cmake.configureOnOpen": false,
+  "cmake.buildDirectory": "${workspaceFolder}/_build",
+  "cmake.installPrefix": "${workspaceFolder}/_install",
+  "cmake.preferredGenerators": [
+    "Ninja"
+  ]
+}

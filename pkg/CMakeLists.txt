@@ -13,8 +13,8 @@ PUBLIC
 )
 target_include_directories(machine PUBLIC .)
 
-add_executable(test
+add_executable(machine-test
     machine/test-machine.cc
 )
-target_link_libraries(test PRIVATE settings machine doctest::doctest)
-add_custom_target(run-tests ALL test ARGS -fc)
+target_link_libraries(machine-test PRIVATE settings machine doctest::doctest)
+add_test(NAME "Machine" COMMAND machine-test)

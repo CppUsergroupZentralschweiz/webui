@@ -1,0 +1,20 @@
+image: gitpod/workspace-full
+
+tasks:
+  - init: CC=clang CXX=clang++ cmake -S . -B _build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -G "Ninja"
+    command: cmake --build _build --target all
+  - init: (cd ui && npm install)
+    command: (cd ui && REACT_APP_MACHINE_URL=$(gp url 8011) npm start)
+
+vscode:
+  extensions:
+    - ms-vscode.cmake-tools
+    - twxs.cmake
+
+ports:
+  - port: 3000
+    onOpen: open-preview
+  - port: 3003
+    onOpen: ignore
+  - port: 8011
+    onOpen: ignore

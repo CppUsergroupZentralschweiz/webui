@@ -38,9 +38,9 @@ add_library(pistache::pistache ALIAS pistache)
 
 target_link_libraries(pistache
   PRIVATE
-    settings
     Threads::Threads
 )
 target_include_directories(pistache PUBLIC ${pistache_SOURCE_DIR}/include)
 
-target_compile_options(pistache PRIVATE "-Wno-defaulted-function-deleted")
+target_compile_features(pistache PRIVATE cxx_std_17)
+target_compile_options(pistache PRIVATE -Wno-defaulted-function-deleted -Wall -Werror)

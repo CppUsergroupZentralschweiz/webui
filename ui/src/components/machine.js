@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-class Machine extends Component {
-  constructor(props) {
-    super(props);
+import config from '../config.js'
+
+class Machine extends React.Component {
+  constructor() {
+    super();
     this.state = {
       state: null,
     };
@@ -23,9 +25,11 @@ class Machine extends Component {
   }
 
   fetch_data() {
-    fetch('http://localhost:8011/machine/state', { method: 'GET' })
+    fetch(config.machine_url + '/machine/state', { method: 'GET' })
       .then(res => res.json())
       .then((ms) => {
+        // Exercise 3
+        // Fetch the temperature from '/machine/temperature'
         this.setState({
           state: ms.state,
         })
@@ -34,7 +38,7 @@ class Machine extends Component {
   }
 
   handle_action(action) {
-    fetch('http://localhost:8011/machine/' + action, { method: 'POST' })
+    fetch(config.machine_url + '/machine/' + action, { method: 'POST' })
       .then(this.fetch_data())
       .catch(console.log)
   }

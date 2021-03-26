@@ -5,16 +5,16 @@
 #include <filesystem>
 #include <vector>
 
-class FileHandler : public Pistache::Http::Handler
-{
-    HTTP_PROTOTYPE(FileHandler)
+class FileHandler : public Pistache::Http::Handler {
+  HTTP_PROTOTYPE(FileHandler)
 
 public:
-    FileHandler(std::filesystem::path prefix, std::vector<std::string> resources);
+  FileHandler(std::filesystem::path prefix, std::vector<std::string> resources);
 
-    void onRequest(const Pistache::Http::Request &request, Pistache::Http::ResponseWriter response) override;
+  void onRequest(const Pistache::Http::Request &request,
+                 Pistache::Http::ResponseWriter response) override;
 
 private:
-    std::filesystem::path _prefix;
-    std::vector<std::string> _resources;
+  std::filesystem::path _prefix;
+  std::vector<std::string> _resources;
 };

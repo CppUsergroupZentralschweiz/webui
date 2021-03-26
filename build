@@ -8,13 +8,11 @@ install_dir="${WORKSPACE:-${script_dir}/_install}"
 export CC="${CC:-clang}"
 export CXX="${CXX:-clang++}"
 
-if [ ! -d "${build_dir}" ] ; then
-    mkdir -p "${build_dir}"
-fi
-
 if [ ! -f "${build_dir}/build.ninja" ] ; then
-    cd "${build_dir}"
-    cmake "${script_dir}" -G "Ninja" -DCMAKE_INSTALL_PREFIX=${install_dir}
+    cmake -S "${script_dir}" -B "${build_dir}" -G "Ninja" -DCMAKE_INSTALL_PREFIX=${install_dir}
 fi
 
 cmake --build "${build_dir}" --target all
+cmake --build "${build_dir}" --target build-ui
+
+ctest --test-dir "${build_dir}" --verbose

@@ -9,7 +9,7 @@ add_custom_command(
   COMMENT "npm install"
 )
 
-add_custom_target(ui ALL
+add_custom_target(build-ui
   COMMAND ${NPM_EXECUTABLE} run build
   WORKING_DIRECTORY
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -25,5 +25,3 @@ add_custom_target(ui ALL
     ${CMAKE_CURRENT_SOURCE_DIR}/node_modules/react/package.json
   COMMENT "npm build"
 )
-
-# install(DIRECTORY ui/build/ DESTINATION ui)
