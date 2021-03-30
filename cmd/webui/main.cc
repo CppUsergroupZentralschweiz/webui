@@ -3,6 +3,8 @@
 #include "rest/rest_server.h"
 #include "web/frontend.h"
 
+#include "rest/web_socket.h"
+
 #include <csignal>
 #include <filesystem>
 #include <optional>
@@ -47,16 +49,24 @@ int main(int argc, char *argv[]) {
   auto const rest = std::make_shared<RestServer>(api);
   auto const ui = std::make_shared<Frontend>(args.ui_folder);
 
+  auto const websocket = std::make_shared<WebSocket>();
+
   std::thread rest_thread{[&] { rest->start(); }};
   std::thread ui_thread{[&] { ui->start(); }};
+
+  std::thread websocket_thread{[&] { websocket->start(); }};
 
   signal_handler = [&] {
     ui->shutdown();
     rest->shutdown();
+
+    websocket->shutdown();
   };
   std::signal(SIGINT, [](int) { signal_handler(); });
   std::signal(SIGTERM, [](int) { signal_handler(); });
 
   rest_thread.join();
   ui_thread.join();
+
+  websocket_thread.join();
 }

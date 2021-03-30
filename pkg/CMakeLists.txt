@@ -2,6 +2,7 @@ add_library(machine
     machine/machine_api.cc
     machine/machine.cc
     rest/rest_server.cc
+    rest/web_socket.cc
     web/file_handler.cc
     web/frontend.cc
 )
