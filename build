@@ -13,6 +13,6 @@ if [ ! -f "${build_dir}/build.ninja" ] ; then
 fi
 
 cmake --build "${build_dir}" --target all
+cmake --build "${build_dir}" --target test
 cmake --build "${build_dir}" --target build-ui
 
-ctest --test-dir "${build_dir}" --verbose

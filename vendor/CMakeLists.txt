@@ -18,8 +18,16 @@ FetchContent_Declare(
   GIT_TAG         v3.9.1
 )
 
+FetchContent_Declare(
+  ixwebsocket
+  GIT_REPOSITORY  https://github.com/machinezone/IXWebSocket.git
+  GIT_TAG         v11.2.4
+)
+
 set(JSON_BuildTests OFF)
 
-FetchContent_MakeAvailable(doctest trompeloeil json)
+FetchContent_MakeAvailable(doctest trompeloeil json ixwebsocket)
+
+add_library(ixwebsocket::ixwebsocket ALIAS ixwebsocket)
 
 add_subdirectory(pistache)

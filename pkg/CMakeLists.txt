@@ -10,6 +10,7 @@ PUBLIC
     settings
     nlohmann_json::nlohmann_json
     pistache::pistache
+    ixwebsocket::ixwebsocket
 )
 target_include_directories(machine PUBLIC .)
 

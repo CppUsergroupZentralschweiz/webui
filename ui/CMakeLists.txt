@@ -18,6 +18,7 @@ add_custom_target(build-ui
   SOURCES
     package.json
     src/App.js
+    src/config.js
     src/index.js
     src/index.css
     src/components/machine.js
